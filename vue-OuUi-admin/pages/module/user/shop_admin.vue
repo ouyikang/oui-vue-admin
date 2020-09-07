@@ -5,7 +5,7 @@
 			
 			<view class="auto_width">
 				<view class="btn btn_bule float-left" @click="showLayer()">
-					<image class="btn_icon" src="../../../static/img/icon_add.png"></image>
+					<span  class="btn_icon add"></span>
 					<span  class="btn_text">添加</span>
 				</view>
 				<picker class="picker_content float-left"  :range="state" range-key="title" :value="state_index" @change="setState">
@@ -17,7 +17,7 @@
 			
 			<view class="auto_width">
 				<view class="btn btn_bule float-right" @click="getDatas()">
-					<image class="btn_icon" src="../../../static/img/icon_search.png"></image>
+					<span  class="btn_icon search"></span>
 					<span class="btn_text">搜索</span>
 				</view>
 				<input v-model="search_val" class="select float-right" type="text" placeholder-class="select_placeholder" placeholder="店铺ID/手机号码/店铺邮箱" />

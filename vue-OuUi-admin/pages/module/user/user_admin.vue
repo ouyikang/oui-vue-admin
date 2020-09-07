@@ -5,19 +5,20 @@
 			
 			<view class="auto_width">
 				<view class="btn btn_bule float-left" @click="showForm(0)">
-					<image class="btn_icon" src="../../../static/img/icon_add.png"></image>
+					<span  class="btn_icon add"></span>
 					<span  class="btn_text">添加</span>
 				</view>
-				<picker class="picker_content float-left"  :range="state" range-key="title" :value="state_index" @change="setState">
-					<!-- <view class="uni-input">{{state[index]}}</view> -->
+				<!-- <picker class="picker_content float-left"  :range="state" range-key="title" :value="state_index" @change="setState">
 					<span class="picker_title">账号状态：{{state[state_index].title}}</span>
 					<image class="picker_icon" src="../../../static/img/icon_down.png"></image>
-				</picker>
+				</picker> -->
+				<ouiSelecter ref="ouiSelecter" class="float-left mt-5 ml-5" @blur="hideOuiSelecter()" :options="oui_options"  @change="setOptions"></ouiSelecter>
+				
 			</view>
 			
 			<view class="auto_width">
 				<view class="btn btn_bule float-right" @click="getDatas()">
-					<image class="btn_icon" src="../../../static/img/icon_search.png"></image>
+					<span  class="btn_icon search"></span>
 					<span class="btn_text">搜索</span>
 				</view>
 				<input v-model="search_val" class="select float-right" type="text" placeholder-class="select_placeholder" placeholder="用户ID/用户邮箱/手机号码" />
@@ -115,10 +116,10 @@
 
 <script>
 	import ouiLayer from '../../../components/oui-layer.vue'
-	
+	import ouiSelecter from '../../../components/oui-selecter.vue'
 	
 	export default {
-		components: {ouiLayer},
+		components: {ouiLayer,ouiSelecter},
 		data() {
 			return {
 				host: this.Imgurl,
@@ -134,9 +135,21 @@
 				pages_index_item:[],
 				pages_index:0,
 				page_length:0,
+				oui_options:["禁用","启用"],
+				oui_options_index:0,
+				
 			}
 		},
 		methods: {
+			setOptions(index){
+				console.log(this.oui_options_index)
+				this.oui_options_index=index;
+				// console.log(this.oui_options_index)
+			},
+			hideOuiSelecter(){
+				console.log("失去焦点")
+				this.$refs.ouiSelecter.hide();
+			},
 			choseImg(){
 				// 选择图片
 				var that=this;

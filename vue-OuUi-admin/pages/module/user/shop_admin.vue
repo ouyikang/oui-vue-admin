@@ -8,11 +8,7 @@
 					<span  class="btn_icon add"></span>
 					<span  class="btn_text">添加</span>
 				</view>
-				<picker class="picker_content float-left"  :range="state" range-key="title" :value="state_index" @change="setState">
-					<!-- <view class="uni-input">{{state[index]}}</view> -->
-					<span class="picker_title">账号状态：{{state[state_index].title}}</span>
-					<image class="picker_icon" src="../../../static/img/icon_down.png"></image>
-				</picker>
+				<ouiSelecter ref="ouiSelecter" class="float-left mt-5 ml-5"  :options="state"  @change="setState"></ouiSelecter>
 			</view>
 			
 			<view class="auto_width">
@@ -41,11 +37,11 @@
 					<td class="td150">操作/管理</td>
 				</tr>
 				<tr class="table_content" v-for="(item,index) in pages[pages_index]">
-					<td contenteditable>{{item.id}}</td>
+					<td>{{item.id}}</td>
 					<td >{{item.create_time}}</td>
 					<td class="cursor_pointer chosed" @click="goDetails(item.id)">{{item.shop_name}}</td>
 					<td><image class="tb_img_round" :src="host+item.shop_img"></image></td>
-					<td contenteditable>{{item.phone}}</td>
+					<td>{{item.phone}}</td>
 					<td >{{item.money}}元</td>
 					<td >{{item.deal_price}}元</td>
 					<td >{{item.deal_num}}</td>
@@ -116,8 +112,9 @@
 
 <script>
 	import ouiLayer from '../../../components/oui-layer.vue'
+	import ouiSelecter from '../../../components/oui-selecter.vue'
 	export default {
-		components: {ouiLayer},
+		components: {ouiLayer,ouiSelecter},
 		data() {
 			return {
 				host: this.Imgurl,
@@ -309,9 +306,9 @@
 					this.pages_index--
 				}
 			},
-			setState(e){
+			setState(index){
 				// 设置禁用/启用
-				this.state_index=e.detail.value;
+				this.state_index=index;
 				this.getDatas();
 			},
 			setPageIndex(e){

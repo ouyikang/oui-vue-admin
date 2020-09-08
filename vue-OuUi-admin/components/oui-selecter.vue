@@ -1,12 +1,13 @@
 <template>
-	<view :class="'oui-selecter'+(showOptions?' on':'')" @click="show()" @blur="hide()">
+	<view :class="'oui-selecter'+(showOptions?' on':'')" @click="show()">
 		<view class="oui-selecter-title">{{options_title}}</view><span :class="'icon_down'+(showOptions?' on':'')"></span>
 		<view :class="'options'+(showOptions?' on':'')">
 			<view class="point"></view>
 			<view class="options-item" v-for="(item,index) in options" @click.stop="setOptions(index)">
-				{{item}}
-			</view>	
+				{{item.title}}
+			</view>
 		</view>
+		<view v-if="showOptions" class="oui-selecter-mask" @click.stop="hide()"></view>
 	</view>
 </template>
 
@@ -17,32 +18,24 @@
 		data() {
 			return {
 				showOptions:false,
-				options_index:0,
 				options_title:''
 			};
 		},
 		methods:{
 			show(){
 				this.showOptions=!this.showOptions;
-				
-			},
-			init(options){
-				this.options=options;
 			},
 			hide(){
-				console.log("失去焦点")
 				this.showOptions=false;
-				
 			},
 			setOptions(index){
-				this.options_index=index;
-				this.options_title=this.options[this.options_index]
+				this.options_title=this.options[index].title
 				this.showOptions=false;
+				this.$emit('change', index)
 			},
 		},
 		mounted () {
-			this.options_title=this.options[this.options_index]
-			console.log('111')
+			this.options_title=this.options[0].title
 		}
 	}
 </script>

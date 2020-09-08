@@ -5,6 +5,10 @@
         ,{"path" : "pages/home/home","style" : {"h5": {"titleNView": false}}}
         ,{"path" : "pages/module/user/user_admin","style" : {"h5": {"titleNView": false}}}
 		,{"path" : "pages/module/user/shop_admin","style" : {"h5": {"titleNView": false}}}
+        ,{
+            "path" : "pages/module/user/user_admin_detail",
+            "style" : {}
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

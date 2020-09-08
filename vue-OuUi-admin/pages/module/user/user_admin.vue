@@ -1,5 +1,6 @@
 <template>
 	<view class="content" >
+		
 		<!-- 添加/查询 -->
 		<view class="ouui_set_head">
 			
@@ -12,7 +13,7 @@
 					<span class="picker_title">账号状态：{{state[state_index].title}}</span>
 					<image class="picker_icon" src="../../../static/img/icon_down.png"></image>
 				</picker> -->
-				<ouiSelecter ref="ouiSelecter" class="float-left mt-5 ml-5" @blur="hideOuiSelecter()" :options="oui_options"  @change="setOptions"></ouiSelecter>
+				<ouiSelecter ref="ouiSelecter" class="float-left mt-5 ml-5"  :options="state"  @change="setState"></ouiSelecter>
 				
 			</view>
 			
@@ -42,14 +43,14 @@
 					<td class="td120">操作/管理</td>
 				</tr>
 				<tr class="table_content" v-for="(item,index) in pages[pages_index]">
-					<td contenteditable>{{item.id}}</td>
+					<td >{{item.id}}</td>
 					<td>{{item.create_time}}</td>
-					<td contenteditable>{{item.nick_name}}</td>
+					<td>{{item.nick_name}}</td>
 					<td>
-						<image class="tb_img_round" :src="host+item.user_img"></image>
+						<image class="tb_img_round" :src="host+item.user_img" @click="previewImg(host+item.user_img)"></image>
 					</td>
-					<td contenteditable>{{item.email}}</td>
-					<td contenteditable>{{item.phone}}</td>
+					<td>{{item.email}}</td>
+					<td>{{item.phone}}</td>
 					<td>{{item.deal_num}}</td>
 					<td>{{item.deal_price}}元</td>
 					<td><view :class="'float-left state '+(item.state==1?'on':'off')"></view>{{item.state==1?'正常':'禁用'}}</td>
@@ -111,15 +112,21 @@
 			</view>
 			
 		</ouiLayer>
+		<ouiPreviewImg ref="ouiPreviewImg"></ouiPreviewImg>
+		<!-- <userAdminDetail></userAdminDetail> -->
+		
 	</view>
 </template>
 
 <script>
 	import ouiLayer from '../../../components/oui-layer.vue'
 	import ouiSelecter from '../../../components/oui-selecter.vue'
+	import ouiPreviewImg from '../../../components/oui-previewImg.vue'
+	import userAdminDetail from './user_admin_detail'
+	
 	
 	export default {
-		components: {ouiLayer,ouiSelecter},
+		components: {ouiLayer,ouiSelecter,userAdminDetail,ouiPreviewImg},
 		data() {
 			return {
 				host: this.Imgurl,
@@ -135,20 +142,15 @@
 				pages_index_item:[],
 				pages_index:0,
 				page_length:0,
-				oui_options:["禁用","启用"],
-				oui_options_index:0,
-				
 			}
 		},
 		methods: {
-			setOptions(index){
-				console.log(this.oui_options_index)
-				this.oui_options_index=index;
-				// console.log(this.oui_options_index)
-			},
-			hideOuiSelecter(){
-				console.log("失去焦点")
-				this.$refs.ouiSelecter.hide();
+			previewImg(src){
+				// 我感觉有点丑,今晚优化一下
+				this.$refs.ouiPreviewImg.show([src,src]);
+				// uni.previewImage({
+				// 	urls:[src]
+				// })
 			},
 			choseImg(){
 				// 选择图片
@@ -323,9 +325,9 @@
 					this.pages_index--
 				}
 			},
-			setState(e){
+			setState(index){
 				// 设置禁用/启用
-				this.state_index=e.detail.value;
+				this.state_index=index
 				this.getDatas();
 			},
 			setPageIndex(e){
